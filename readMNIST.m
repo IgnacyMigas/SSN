@@ -81,8 +81,14 @@ function digits = trimDigits(digitsIn, border)
     end
 end
 function digits = normalizePixValue(digits)
-    digits = double(digits);
-    for i=1:size(digits, 3)
-        digits(:,:,i) = digits(:,:,i)./255.0;
-    end
+    digits = (~~digits)*2-1;
+%     digits = double(digits);
+%     for i=1:size(digits, 3)
+% %         if (digits(:,:,i)>0)
+% %             digits(:,:,i) = 1;
+% %         else
+% %             digits(:,:,i) = -1;
+% %         end
+% %         digits(:,:,i) = digits(:,:,i)./255.0;
+%     end
 end
