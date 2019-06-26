@@ -25,10 +25,13 @@ T=reshape(T, [size(T, 1)*size(T, 2), size(T, 3)]);
 % T=Xu_imgs(:,:,1);
 % T = [-1 -1 1; 1 -1 1]';
 net = newhop(T);
-Ai = T;
-[Y,Pf,Af] = net(size(Ai, 2),[],Ai);
+% Ai = T;
+% [Y,Pf,Af] = net(size(Ai, 2),[],Ai);
 
-sum(sum(abs(Y-T)))
+Yw = reshape(Xt_imgs, [size(Xt_imgs, 1)*size(Xt_imgs, 2), size(Xt_imgs, 3)]);
+[Y,Pf,Af] = net(size(Yw, 2),[],Yw);
+
+sum(sum(abs(Y-Yw)))/size(Y, 2)
 
 % Ai = Yu_labels;
 % % Ai = {[-0.9; -0.8; 0.7]};
