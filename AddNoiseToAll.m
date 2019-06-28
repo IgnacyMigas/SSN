@@ -10,4 +10,4 @@ noise = noise .*d;
 %%% add noise
 result_matrix = input_matrix + noise;
 
-return
+end
