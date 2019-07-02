@@ -1,15 +1,13 @@
 clc;
 clear;
 
-% https://www.alexbod.com/hopfield-neural-network/#matlab
-
 [Xu_imgs, Yu_labels] = readMNIST('train-images.idx3-ubyte', 'train-labels.idx1-ubyte', 60000, 0);
 [Xt_imgs, Yt_labels] = readMNIST('t10k-images.idx3-ubyte', 't10k-labels.idx1-ubyte', 10000, 0);
 
 Xu_imgs=normalizePixValue(Xu_imgs);
 Xt_imgs=normalizePixValue(Xt_imgs);
 
-unique_labels=unique(Yu_labels)';
+unique_labels=unique(Yu_labels)'+1;
 
 T=zeros(size(Xu_imgs, 1), size(Xu_imgs, 2),length(unique_labels));
 T_cnt=zeros(length(unique_labels), 1);
@@ -47,7 +45,8 @@ end
 
 disp(sum(sum(abs(Y-Xt)))/size(Y, 2));
 
-disp(sum(abs(Y_label-Yt_labels)));
+s=nnz(Y_label-Yt_labels);
+disp(s);
 
-disp(nnz(abs(Y_label-Yt_labels)));
-
+fprintf('Accuracy = %f%%\n', (1-s/length(Y_label))*100);
+fprintf('Error = %f%%\n', s/length(Y_label)*100);
