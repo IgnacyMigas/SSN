@@ -1,0 +1,47 @@
+clc;
+clear;
+
+% https://www.alexbod.com/hopfield-neural-network/#matlab
+
+[Xu_imgs, Yu_labels] = readMNIST('train-images.idx3-ubyte', 'train-labels.idx1-ubyte', 60000, 0);
+[Xt_imgs, Yt_labels] = readMNIST('t10k-images.idx3-ubyte', 't10k-labels.idx1-ubyte', 10000, 0);
+
+% net = newhop();
+% T=Xu_imgs;
+% T=reshape(Xu_imgs, [size(Xu_imgs, 1)*size(Xu_imgs, 2), size(Xu_imgs, 3)]);
+% T=T';
+
+Xu_imgs=normalizePixValue(Xu_imgs);
+Xt_imgs=normalizePixValue(Xt_imgs);
+
+unique_labels=unique(Yu_labels)';
+
+T=zeros(size(Xu_imgs, 1), size(Xu_imgs, 2),length(unique_labels));
+T_cnt=zeros(length(unique_labels), 1);
+
+for i=1:size(Xu_imgs, 3)
+    l=Yu_labels(i);
+    T(:,:,l)=T(:,:,l)+Xu
+    T_cnt()=T_cnt()+1
+end
+
+c=1;
+for label=unique_labels
+    temp_m=zeros(size(Xu_imgs, 1), size(Xu_imgs, 2));
+    for 
+    i=1;
+    while Yu_labels(i)~=label
+        i=i+1;
+    end
+    T(:,:,c)=Xu_imgs(:,:,i);
+    c=c+1;
+end
+T=reshape(T, [size(T, 1)*size(T, 2), size(T, 3)]);
+net = newhop(T);
+
+Xt = reshape(Xt_imgs, [size(Xt_imgs, 1)*size(Xt_imgs, 2), size(Xt_imgs, 3)]);
+
+[Y,Pf,Af] = net(size(Xt, 2),[],Xt);
+
+disp(sum(sum(abs(Y-Xt)))/size(Y, 2))
+

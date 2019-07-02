@@ -5,35 +5,31 @@ clear;
 
 [Xu_imgs, Yu_labels] = readMNIST('train-images.idx3-ubyte', 'train-labels.idx1-ubyte', 60000, 0);
 [Xt_imgs, Yt_labels] = readMNIST('t10k-images.idx3-ubyte', 't10k-labels.idx1-ubyte', 10000, 0);
-% 
-% net = newhop();
-% T=Xu_imgs;
-% T=reshape(Xu_imgs, [size(Xu_imgs, 1)*size(Xu_imgs, 2), size(Xu_imgs, 3)]);
-% T=T';
-v=unique(Yu_labels)';
-T=zeros(size(Xu_imgs, 1), size(Xu_imgs, 2),length(v));
-c=1;
-for l=v
-    i=1;
-    while Yu_labels(i)~=l
-        i=i+1;
-    end
-    T(:,:,c)=Xu_imgs(:,:,i);
-    c=c+1;
+
+Xu_imgs=normalizePixValue(Xu_imgs);
+Xt_imgs=normalizePixValue(Xt_imgs);
+
+unique_labels=unique(Yu_labels)'+1;
+
+T=zeros(size(Xu_imgs, 1), size(Xu_imgs, 2),length(unique_labels));
+T_cnt=zeros(length(unique_labels), 1);
+
+for i=1:size(Xu_imgs, 3)
+    l=Yu_labels(i)+1;
+    T(:,:,l)=T(:,:,l)+Xu_imgs(:,:,i);
+    T_cnt(l)=T_cnt(l)+1;
 end
+
+for label=unique_labels
+    T(:,:,label)=T(:,:,label)/T_cnt(label);
+end
+
 T=reshape(T, [size(T, 1)*size(T, 2), size(T, 3)]);
-% T=Xu_imgs(:,:,1);
-% T = [-1 -1 1; 1 -1 1]';
 net = newhop(T);
-% Ai = T;
-% [Y,Pf,Af] = net(size(Ai, 2),[],Ai);
 
-Yw = reshape(Xt_imgs, [size(Xt_imgs, 1)*size(Xt_imgs, 2), size(Xt_imgs, 3)]);
-[Y,Pf,Af] = net(size(Yw, 2),[],Yw);
+Xt = reshape(Xt_imgs, [size(Xt_imgs, 1)*size(Xt_imgs, 2), size(Xt_imgs, 3)]);
 
-sum(sum(abs(Y-Yw)))/size(Y, 2)
+[Y,Pf,Af] = net(size(Xt, 2),[],Xt);
 
-% Ai = Yu_labels;
-% % Ai = {[-0.9; -0.8; 0.7]};
-% [Y,Pf,Af] = net({1 5},{},Ai);
-% Y{1}
+disp(sum(sum(abs(Y-Xt)))/size(Y, 2))
+
