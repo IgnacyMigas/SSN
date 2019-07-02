@@ -9,7 +9,7 @@ clear;
 Xu_imgs=normalizePixValue(Xu_imgs);
 Xt_imgs=normalizePixValue(Xt_imgs);
 
-unique_labels=unique(Yu_labels)'+1;
+unique_labels=unique(Yu_labels)';
 
 T=zeros(size(Xu_imgs, 1), size(Xu_imgs, 2),length(unique_labels));
 T_cnt=zeros(length(unique_labels), 1);
@@ -31,5 +31,23 @@ Xt = reshape(Xt_imgs, [size(Xt_imgs, 1)*size(Xt_imgs, 2), size(Xt_imgs, 3)]);
 
 [Y,Pf,Af] = net(size(Xt, 2),[],Xt);
 
-disp(sum(sum(abs(Y-Xt)))/size(Y, 2))
+Y_label = zeros(size(Y, 2),1);
+for i=1:size(Y, 2)
+    w=-1;
+    diff=-1;
+    for d=1:size(T, 2)
+        tmp=sum(abs(Y(:,i)-T(:,d)));
+        if diff == -1 || tmp < diff
+            diff=tmp;
+            w=d-1;
+        end
+    end
+    Y_label(i)=w;
+end
+
+disp(sum(sum(abs(Y-Xt)))/size(Y, 2));
+
+disp(sum(abs(Y_label-Yt_labels)));
+
+disp(nnz(abs(Y_label-Yt_labels)));
 
