@@ -1,4 +1,4 @@
-function [ret] = AddNoise(input, d)
+function [ret] = AddNoiseToRandomElements(input, d)
 
     ret = input;
     r=size(input, 1);

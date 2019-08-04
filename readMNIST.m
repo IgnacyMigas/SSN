@@ -69,26 +69,13 @@ function [imgs labels] = readMNIST(imgFile, labelFile, readDigits, offset)
     
     % Calc avg digit and count
     imgs = trimDigits(imgs, 4);
-    imgs = normalizePixValue(imgs);
-    %[avg num stddev] = getDigitStats(imgs, labels);
     
 end
+
 function digits = trimDigits(digitsIn, border)
     dSize = size(digitsIn);
     digits = zeros([dSize(1)-(border*2) dSize(2)-(border*2) dSize(3)]);
     for i=1:dSize(3)
         digits(:,:,i) = digitsIn(border+1:dSize(1)-border, border+1:dSize(2)-border, i);
     end
-end
-function digits = normalizePixValue(digits)
-    digits = (~~digits)*2-1;
-%     digits = double(digits);
-%     for i=1:size(digits, 3)
-% %         if (digits(:,:,i)>0)
-% %             digits(:,:,i) = 1;
-% %         else
-% %             digits(:,:,i) = -1;
-% %         end
-% %         digits(:,:,i) = digits(:,:,i)./255.0;
-%     end
 end
