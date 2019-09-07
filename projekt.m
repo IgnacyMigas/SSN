@@ -74,7 +74,7 @@ for m=1:n
                 min_diff_all=diff_all;
                 final_label_all=j-1;
             end
-            diff_random=sum(abs(Y_dissorted_all(:,i,m)-T(:,j)));
+            diff_random=sum(abs(Y_dissorted_random(:,i,m)-T(:,j)));
             if min_diff_random == -1 || diff_random < min_diff_random
                 min_diff_random=diff_random;
                 final_label_random=j-1;
@@ -110,7 +110,7 @@ s_dissorted_random = zeros(n,1);
 
 for m=1:n
     s_dissorted_all(m) = nnz(Y_dissorted_all_labels(:,m) - Yt_labels);
-    s_dissorted_random(m) = nnz(Y_dissorted_all_labels(:,m) - Yt_labels);
+    s_dissorted_random(m) = nnz(Y_dissorted_random_labels(:,m) - Yt_labels);
     disp('liczba b³êdnych przyporz¹dkowañ');
     fprintf('zaburzenie = %d%%\n', noise_level(m)*100);
     
