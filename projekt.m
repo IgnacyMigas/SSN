@@ -15,9 +15,9 @@ Xt_imgs=normalizePixValue(Xt_imgs);
 unique_labels=unique(Yu_labels)'+1;
 
 %T - uœredniony zbiór ucz¹cy
-T=MakeAveragedPatternsFromTrainingSet(Xu_imgs, Yu_labels, unique_labels);
-%T - losowo wybrane wzorce
 %T=MakeAveragedPatternsFromTrainingSet(Xu_imgs, Yu_labels, unique_labels);
+%T - losowo wybrane wzorce
+T=MakeRandomPatternsFromTrainingSet(Xu_imgs, Yu_labels, unique_labels);
 
 %tworzenie nowej sieci Hopfielda
 net = newhop(T);
