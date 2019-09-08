@@ -16,6 +16,8 @@ unique_labels=unique(Yu_labels)'+1;
 
 %T - uœredniony zbiór ucz¹cy
 T=MakeAveragedPatternsFromTrainingSet(Xu_imgs, Yu_labels, unique_labels);
+%T - losowo wybrane wzorce
+%T=MakeAveragedPatternsFromTrainingSet(Xu_imgs, Yu_labels, unique_labels);
 
 %tworzenie nowej sieci Hopfielda
 net = newhop(T);
@@ -96,10 +98,10 @@ for m=1:n
     fprintf('zaburzenie = %d%%\n', noise_level(m)*100);
     
     disp('dodane do wszystkich elementów');
-    disp(sum(sum(abs(Y_dissorted_all(:,:,m)- X_dissorted_all(:,:,m))))/size(Y_dissorted_all(:,:,m), 2));
+    disp(sum(sum(abs(Y_dissorted_all(:,:,m)- X_dissorted_all(:,:,m))))/(size(Y_dissorted_all(:,:,m), 1)*size(Y_dissorted_all(:,:,m), 2))*100);
     
     disp('dodane do losowych elementów');
-    disp(sum(sum(abs(Y_dissorted_random(:,:,m)- X_dissorted_random(:,:,m))))/size(Y_dissorted_random(:,:,m), 2));
+    disp(sum(sum(abs(Y_dissorted_random(:,:,m)- X_dissorted_random(:,:,m))))/(size(Y_dissorted_random(:,:,m), 1)*size(Y_dissorted_random(:,:,m), 2))*100);
 end
 
 
